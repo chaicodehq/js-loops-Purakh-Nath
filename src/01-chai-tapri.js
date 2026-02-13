@@ -27,5 +27,20 @@
  *   // => { totalChai: 0, totalRevenue: 0 }
  */
 export function chaiTapriRevenue(customers) {
-  // Your code here
+  let cuttingChai = 0;
+  let adrakChai = 0;
+  if(Number.isInteger(customers)  && customers > 0){
+    for(let i = 1; i <= customers ; i++){
+      if(i % 3 === 0){
+        adrakChai ++
+      }
+      else{
+        cuttingChai ++
+      }
+    }
+  let totalRevenue = (10 * cuttingChai ) + ( 15* adrakChai);
+  return { totalChai: customers, totalRevenue: totalRevenue }
+  }
+
+  return { totalChai: 0, totalRevenue: 0 };
 }

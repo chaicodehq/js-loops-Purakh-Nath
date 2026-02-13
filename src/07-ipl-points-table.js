@@ -37,5 +37,52 @@
  *   // Sorted: CSK(3), RCB(1), MI(0)
  */
 export function iplPointsTable(matches) {
-  // Your code here
+  if(!Array.isArray(matches) || matches.length === 0) return [];
+  // object accumulator
+  let teamObject = {};
+
+  for (let item = 0; item < matches.length; item++) {
+  let currentMatch = matches[item];
+  
+  if (!teamObject[currentMatch.team1]) {
+    teamObject[currentMatch.team1] = { team: currentMatch.team1, played: 0, won: 0, lost: 0, tied: 0, noResult: 0, points: 0 };
+  }
+  if (!teamObject[currentMatch.team2]) {
+    teamObject[currentMatch.team2] = { team: currentMatch.team2, played: 0, won: 0, lost: 0, tied: 0, noResult: 0, points: 0 };
+  }
+  
+  teamObject[currentMatch.team1].played++;
+  teamObject[currentMatch.team2].played++;
+
+  if (currentMatch.result === 'win') {
+
+    teamObject[currentMatch.winner].won++;
+    teamObject[currentMatch.winner].points = teamObject[currentMatch.winner].points + 2;
+  
+    let loser = currentMatch.team1 === currentMatch.winner ? currentMatch.team2 : currentMatch.team1;
+    teamObject[loser].lost++;
+
+  } 
+  else if (currentMatch.result === 'tie') {
+    teamObject[currentMatch.team1].tied++;
+    teamObject[currentMatch.team2].tied++;
+    teamObject[currentMatch.team1].points++
+    teamObject[currentMatch.team2].points++;
+  } 
+  else if (currentMatch.result === 'no_result') {
+    teamObject[currentMatch.team1].noResult++;
+    teamObject[currentMatch.team2].noResult++;
+    teamObject[currentMatch.team1].points++;
+    teamObject[currentMatch.team2].points++;
+  }
+}
+
+let sortedTeams = Object.values(teamObject).sort((a, b) => {
+  if (a.points !== b.points) {
+    return b.points - a.points; 
+  }
+  return a.team.localeCompare(b.team);
+})
+
+return sortedTeams;
 }

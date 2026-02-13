@@ -38,5 +38,49 @@
  *   // => { selected: [{ color: "golden", length: 5, cost: 250 }], totalLength: 5, totalCost: 250 }
  */
 export function diwaliLightsPlan(lightStrings, budget) {
-  // Your code here
+  if (!Array.isArray(lightStrings) || budget <= 0 || typeof budget !== 'number') {
+    return { selected: [], totalLength: 0, totalCost: 0 };
+  }
+  let selectedItems = [];
+  let totalCost = 0;
+  let totalLength = 0;
+  for(let items of lightStrings){
+    let curretItem = items
+    if(curretItem.color === "golden"){
+      let cost = curretItem.length * 50
+      totalCost = totalCost + cost
+      selectedItems.push({...curretItem, cost : cost})
+      totalLength = totalLength + curretItem.length;
+    }
+    else if(curretItem.color === "multicolor"){
+      let cost = curretItem.length * 40
+      totalCost = totalCost + cost
+      selectedItems.push({...curretItem, cost : cost})
+      totalLength = totalLength + curretItem.length;
+    }
+    else if(curretItem.color === "white"){
+        let cost = curretItem.length * 30
+      totalCost = totalCost + cost
+      selectedItems.push({...curretItem, cost : cost})
+      totalLength = totalLength + curretItem.length;
+    }
+    else{
+      let cost = curretItem.length * 35
+      totalCost = totalCost + cost
+      selectedItems.push({...curretItem, cost : cost})
+      totalLength = totalLength + curretItem.length;
+    }
+  }
+
+    while(totalCost > budget){
+     let lastIndex = selectedItems.length - 1
+     let cost = selectedItems[lastIndex].cost
+     let removedItem = selectedItems.pop()
+     totalLength = totalLength - removedItem.length;
+
+     totalCost = totalCost - cost
+
+    }
+
+    return { selected: selectedItems, totalLength: totalLength, totalCost: totalCost }
 }
